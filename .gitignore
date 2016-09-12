@@ -1,0 +1,16 @@
+*.elc
+*.bak
+*~
+
+/ac-comphist.dat
+/ido.last
+/places
+
+/custom.el
+/elpa
+/site-lisp/package/
+
+/auto-save-list
+/backups
+
+/.HOME
