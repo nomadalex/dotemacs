@@ -15,6 +15,9 @@
   (require 'init-general)
   (require 'init-themes)
 
+  (require 'init-company)
+  (require 'init-csharp)
+
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (when (file-exists-p custom-file) (load custom-file))
   (server-start))
