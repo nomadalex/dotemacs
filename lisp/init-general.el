@@ -27,7 +27,10 @@
 
 ;; Autosave settings.
 (setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "\\1") t)))
+      `((".*" ,(concat user-emacs-directory "autosaves/\\1") t)))
+(let ((dir (expand-file-name "autosaves" user-emacs-directory)))
+  (unless (file-accessible-directory-p dir)
+    (make-directory dir)))
 
 ;; Backup files settings.
 (setq backup-by-copying t
