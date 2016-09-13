@@ -56,6 +56,10 @@
 
 (column-number-mode 1)
 
+(recentf-mode 1)
+(setq-default recentf-max-saved-items 100
+              recentf-exclude '("/tmp/" "/ssh:"))
+
 (global-auto-revert-mode)
 (setq global-auto-revert-non-file-buffers t
       auto-revert-verbose nil)
