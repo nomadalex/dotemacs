@@ -113,5 +113,23 @@ line."
       desktop-auto-save-timeout 600)
 (desktop-save-mode 1)
 
+;;; ibuffer
+(use-package ibuffer-vc :ensure t :defer t)
+(use-package ibuffer-tramp :ensure t :defer t)
+
+(after-load 'ibuffer
+  (require 'ibuffer-vc)
+  (require 'ibuffer-tramp)
+
+  (defun ibuffer-set-up-preferred-filters ()
+    (setq ibuffer-filter-groups
+          (append (ibuffer-vc-generate-filter-groups-by-vc-root)
+                  (ibuffer-tramp-generate-filter-groups-by-tramp-connection)))
+    (ibuffer-update nil t)
+    (unless (eq ibuffer-sorting-mode 'filename/process)
+      (ibuffer-do-sort-by-filename/process)))
+
+  (add-hook 'ibuffer-hook 'ibuffer-set-up-preferred-filters))
+
 (provide 'init-general)
 ;;; init-general ends here
