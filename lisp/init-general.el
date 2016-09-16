@@ -55,6 +55,7 @@
   (setq mouse-wheel-scroll-amount '(0.001)))
 
 (column-number-mode 1)
+(delete-selection-mode 1)
 
 (recentf-mode 1)
 (setq-default recentf-max-saved-items 100
