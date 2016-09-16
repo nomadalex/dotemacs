@@ -1,5 +1,6 @@
 *.elc
 *.bak
+.*.lock
 *~
 
 /ac-comphist.dat
@@ -14,3 +15,5 @@
 /backups
 
 /.HOME
+
+/.emacs.desktop
