@@ -65,9 +65,9 @@
 (setq global-auto-revert-non-file-buffers t
       auto-revert-verbose nil)
 
-(use-package cl-lib :ensure t)
-(use-package scratch :ensure t)
-(use-package wgrep :ensure t)
+(use-package cl-lib :ensure t :defer t)
+(use-package scratch :ensure t :defer t)
+(use-package wgrep :ensure t :defer t)
 
 (defun sanityinc/set-tabulated-list-column-width (col-name width)
   "Set any column with name COL-NAME to the given WIDTH."
