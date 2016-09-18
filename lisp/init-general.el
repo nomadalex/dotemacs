@@ -107,6 +107,8 @@ line."
 
 (global-set-key [remap move-beginning-of-line] 'move-beginning-of-line-smart)
 
+(global-set-key (kbd "C-c j") 'join-line)
+
 ;;; desktop
 ;; save a list of open files in ~/.emacs.d/.emacs.desktop
 (setq desktop-path (list user-emacs-directory)
