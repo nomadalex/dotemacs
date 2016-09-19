@@ -66,32 +66,12 @@
       auto-revert-verbose nil)
 
 (use-package cl-lib :ensure t :defer t)
+(use-package hydra :ensure t :defer t)
 (use-package scratch :ensure t :defer t)
 (use-package wgrep :ensure t :defer t)
 
-(defun sanityinc/set-tabulated-list-column-width (col-name width)
-  "Set any column with name COL-NAME to the given WIDTH."
-  (when (> width (length col-name))
-    (cl-loop for column across tabulated-list-format
-             when (string= col-name (car column))
-             do (setf (elt column 1) width))))
-
-(defun sanityinc/maybe-widen-package-menu-columns ()
-  "Widen some columns of the package menu table to avoid truncation."
-  (when (boundp 'tabulated-list-format)
-    (sanityinc/set-tabulated-list-column-width "Version" 13)
-    (let ((longest-archive-name (apply 'max (mapcar 'length (mapcar 'car package-archives)))))
-      (sanityinc/set-tabulated-list-column-width "Archive" longest-archive-name))))
-
-(add-hook 'package-menu-mode-hook 'sanityinc/maybe-widen-package-menu-columns)
-
 (global-set-key (kbd "C-,") 'set-mark-command)
 (global-set-key (kbd "C-x C-,") 'pop-global-mark)
-
-(use-package ace-jump-mode
-  :ensure t
-  :bind (("C-;" . ace-jump-mode)
-         ("C-:" . ace-jump-line-mode)))
 
 ;; 2011-05-06 20:17
 ;; http://stackoverflow.com/questions/145291/smart-home-in-emacs
@@ -109,17 +89,57 @@ line."
 
 (global-set-key (kbd "C-c j") 'join-line)
 
+(use-package ace-jump-mode
+  :ensure t
+  :bind (("C-;" . ace-jump-mode)
+         ("C-:" . ace-jump-line-mode)))
+
+(use-package ace-window
+  :ensure t
+  :bind
+  ("C-x o" . ace-window)
+  :config
+  (setq aw-dispatch-always t))
+
+(use-package highlight-symbol
+  :disabled
+  :ensure t
+  :defer t
+  :diminish highlight-symbol-mode
+  :init
+  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
+  (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode))
+
+;; Visualize some kinds of blank.
+(use-package whitespace
+  :diminish whitespace-mode
+  :config
+    ;; Indicate empty lines after the buffer end.
+  (setq-default qindicate-empty-lines t)
+  (setq whitespace-style '(face trailing))
+  (global-whitespace-mode 1))
+
+;;; uniquify
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'post-forward
+        uniquify-ignore-buffers-re "^\\*"))
+
 ;;; desktop
-;; save a list of open files in ~/.emacs.d/.emacs.desktop
-(setq desktop-path (list user-emacs-directory)
-      desktop-auto-save-timeout 600)
-(desktop-save-mode 1)
+(use-package desktop
+  :config
+  ;; save a list of open files in ~/.emacs.d/.emacs.desktop
+  (setq desktop-path (list user-emacs-directory)
+        desktop-auto-save-timeout 600)
+  (desktop-save-mode 1))
 
 ;;; ibuffer
-(use-package ibuffer-vc :ensure t :defer t)
-(use-package ibuffer-tramp :ensure t :defer t)
-
-(after-load 'ibuffer
+(use-package ibuffer
+  :defer t
+  :init
+  (use-package ibuffer-vc :ensure t :defer t)
+  (use-package ibuffer-tramp :ensure t :defer t)
+  :config
   (require 'ibuffer-vc)
   (require 'ibuffer-tramp)
 
@@ -132,6 +152,23 @@ line."
       (ibuffer-do-sort-by-filename/process)))
 
   (add-hook 'ibuffer-hook 'ibuffer-set-up-preferred-filters))
+
+;;; package
+(defun sanityinc/set-tabulated-list-column-width (col-name width)
+  "Set any column with name COL-NAME to the given WIDTH."
+  (when (> width (length col-name))
+    (cl-loop for column across tabulated-list-format
+             when (string= col-name (car column))
+             do (setf (elt column 1) width))))
+
+(defun sanityinc/maybe-widen-package-menu-columns ()
+  "Widen some columns of the package menu table to avoid truncation."
+  (when (boundp 'tabulated-list-format)
+    (sanityinc/set-tabulated-list-column-width "Version" 13)
+    (let ((longest-archive-name (apply 'max (mapcar 'length (mapcar 'car package-archives)))))
+      (sanityinc/set-tabulated-list-column-width "Archive" longest-archive-name))))
+
+(add-hook 'package-menu-mode-hook 'sanityinc/maybe-widen-package-menu-columns)
 
 (provide 'init-general)
 ;;; init-general ends here
