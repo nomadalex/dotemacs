@@ -94,6 +94,11 @@ line."
   :bind (("C-;" . ace-jump-mode)
          ("C-:" . ace-jump-line-mode)))
 
+;; Undo/redo window configuration with C-c <left>/<right>.
+(use-package winner
+  :config
+  (winner-mode 1))
+
 (use-package ace-window
   :ensure t
   :bind
