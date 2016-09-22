@@ -4,14 +4,9 @@
 (let ((gc-cons-threshold (* 256 1024 1024))
       (file-name-handler-alist nil))
 
-  (defconst *is-a-mac* (eq system-type 'darwin))
-  (defalias 'after-load 'with-eval-after-load)
-
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-  (require 'init-site-lisp)
-  (require 'init-package)
-  (require 'init-exec-path)
+  (require 'init-bootstrap)
   (require 'init-general)
   (require 'init-themes)
 

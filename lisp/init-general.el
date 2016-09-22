@@ -3,10 +3,6 @@
 (use-package better-defaults
   :ensure t)
 
-;; Remove splash screen and message, change major mode.
-(setq inhibit-splash-screen t
-      initial-scratch-message nil
-      initial-major-mode 'emacs-lisp-mode)
 
 ; "y or n" instead of "yes or no".
 (fset 'yes-or-no-p 'y-or-n-p)
