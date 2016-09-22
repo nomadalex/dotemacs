@@ -1,21 +1,35 @@
 (use-package company
   :ensure t
   :diminish company-mode
-  :bind (("M-C-/" . company-complete)
-         :map
+  :bind (:map
          company-mode-map
          ("M-/" . company-complete)
+         ([remap indent-for-tab-command] . company-indent-for-tab-command)
          :map
          company-active-map
-         ("M-/" . company-select-next))
+         ([tab] . company-complete-common-or-cycle)
+         ("TAB" . company-complete-common-or-cycle))
   :init
   ;; WAITING: haskell-mode sets tags-table-list globally, breaks tags-completion-at-point-function
   ;; TODO Default sort order should place [a-z] before punctuation
 
+  ;; https://github.com/company-mode/company-mode/issues/94
   (setq tab-always-indent 'complete)  ;; use 't when company is disabled
   (add-to-list 'completion-styles 'initials t)
   ;; Stop completion-at-point from popping up completion buffers so eagerly
   (setq completion-cycle-threshold 5)
+
+  (defvar completion-at-point-functions-saved nil)
+
+  (defun company-indent-for-tab-command (&optional arg)
+    (interactive "P")
+    (let ((completion-at-point-functions-saved completion-at-point-functions)
+          (completion-at-point-functions '(company-complete-common-wrapper)))
+      (indent-for-tab-command arg)))
+
+  (defun company-complete-common-wrapper ()
+    (let ((completion-at-point-functions completion-at-point-functions-saved))
+      (company-complete-common)))
 
   :config
   (setq-default company-backends '((company-capf company-dabbrev-code) company-dabbrev)
