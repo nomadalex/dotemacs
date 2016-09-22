@@ -66,8 +66,8 @@
 (use-package scratch :ensure t :defer t)
 (use-package wgrep :ensure t :defer t)
 
-(global-set-key (kbd "C-,") 'set-mark-command)
-(global-set-key (kbd "C-x C-,") 'pop-global-mark)
+(bind-key* "C-," 'set-mark-command)
+(bind-key* "C-x C-," 'pop-global-mark)
 
 ;; 2011-05-06 20:17
 ;; http://stackoverflow.com/questions/145291/smart-home-in-emacs
