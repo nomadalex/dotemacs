@@ -98,9 +98,7 @@ line."
 (use-package ace-window
   :ensure t
   :bind
-  ("C-x o" . ace-window)
-  :config
-  (setq aw-dispatch-always t))
+  ("C-x o" . ace-window))
 
 (use-package highlight-symbol
   :disabled
