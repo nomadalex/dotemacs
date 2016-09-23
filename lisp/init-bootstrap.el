@@ -1,9 +1,10 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
 
-;; Remove splash screen and message, change major mode.
-(setq inhibit-splash-screen t
+(setq inhibit-default-init t
+      inhibit-splash-screen t
       initial-scratch-message nil
-      initial-major-mode 'emacs-lisp-mode)
+      initial-major-mode 'emacs-lisp-mode
+      custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 ;; site-lisp initialize
 

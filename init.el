@@ -1,6 +1,3 @@
-;; Don't load default library.
-(setq inhibit-default-init t)
-
 (let ((gc-cons-threshold (* 256 1024 1024))
       (file-name-handler-alist nil))
 
@@ -13,9 +10,8 @@
   (require 'init-company)
   (require 'init-csharp)
 
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (when (file-exists-p custom-file) (load custom-file))
-  (server-start))
+  (when (file-exists-p custom-file)
+    (load custom-file))
 
-(provide 'init)
-;;; init.el ends here
+  (unless (server-running-p)
+    (server-start)))
