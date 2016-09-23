@@ -222,10 +222,26 @@
   :bind
   ("C-x C-y" . browse-kill-ring))
 
-(use-package ace-jump-mode
+(use-package avy
   :ensure t
-  :bind (("C-;" . ace-jump-mode)
-         ("C-:" . ace-jump-line-mode)))
+  :defer t
+  :bind
+  ("C-;" . avy-goto-char)
+  :init
+  (bind-key
+   "M-g"
+   (defhydra hydra-avy (:color blue)
+     "avy"
+     ("TAB" move-to-column "column")
+     ("c" avy-goto-char "char")
+     ("C" avy-goto-char-2 "2 char")
+     ("m" avy-goto-char-in-line "char in line")
+     ("g" avy-goto-line "line")
+     ("G" goto-line "line (default)")
+     ("w" avy-goto-word-1 "word")
+     ("W" avy-goto-word-0 "some word")
+     ("s" avy-goto-subword-1 "subword")
+     ("S" avy-goto-subword-0 "some subword"))))
 
 ;; Undo/redo window configuration with C-c <left>/<right>.
 (use-package winner
