@@ -3,6 +3,7 @@
 
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+  (require 'init-benchmarking)
   (require 'init-bootstrap)
   (require 'init-general)
   (require 'init-themes)
