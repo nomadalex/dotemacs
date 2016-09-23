@@ -51,9 +51,37 @@
 (defun maybe-copy-env-from-shell (vars) t)
 
 (use-package exec-path-from-shell
-  :if (memq window-system '(ns x))
+  :if (or (eq system-type 'windows-nt) (memq window-system '(ns x)))
   :ensure t
   :config
+  ;; http://qiita.com/KazuSoap/items/ee7a4dec80308dbd1d41
+  (when (eq system-type 'windows-nt)
+    (let ((shell-level (getenv "SHLVL")))
+      (when (or (not shell-level) (string= "0" shell-level))
+        (defvar msys2-root-directory "c:/msys64"
+          "Root directory for MSYS2 installation")
+        (setq msys2-bash-path (expand-file-name "usr/bin/bash" msys2-root-directory)
+              msys2-cygpath-path (expand-file-name "usr/bin/cygpath" msys2-root-directory))
+
+        (setq shell-file-name msys2-bash-path)
+        (defvar explicit-shell-file-name)
+        (setq explicit-shell-file-name shell-file-name)
+        (setenv "SHELL" shell-file-name)
+
+        (setenv "MSYSTEM" "MINGW64")
+
+        (defun ad-exec-path-from-shell-setenv (orig-fun &rest args)
+          (when (string=  (car args) "PATH")
+            (setf (nth 1 args)
+                  (with-temp-buffer
+                    (call-process msys2-cygpath-path nil '(t nil) nil "-amp" (nth 1 args))
+                    (unless (bobp)
+                      (goto-char (point-min))
+                      (buffer-substring-no-properties (point) (line-end-position))))))
+          (apply orig-fun args))
+        (advice-add 'exec-path-from-shell-setenv :around 'ad-exec-path-from-shell-setenv)))
+    (setq shell-command-switch "-c"))
+
   (exec-path-from-shell-initialize)
   (defalias 'maybe-copy-env-from-shell 'exec-path-from-shell-getenvs))
 
