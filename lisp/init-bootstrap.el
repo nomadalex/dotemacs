@@ -63,6 +63,13 @@
         (setq msys2-bash-path (expand-file-name "usr/bin/bash" msys2-root-directory)
               msys2-cygpath-path (expand-file-name "usr/bin/cygpath" msys2-root-directory))
 
+        (defun msys2-cygpath-to-win-path (pathstr)
+          (with-temp-buffer
+            (call-process msys2-cygpath-path nil '(t nil) nil "-amp" pathstr)
+            (unless (bobp)
+              (goto-char (point-min))
+              (buffer-substring-no-properties (point) (line-end-position)))))
+
         (setq shell-file-name msys2-bash-path)
         (defvar explicit-shell-file-name)
         (setq explicit-shell-file-name shell-file-name)
@@ -71,18 +78,18 @@
         (setenv "MSYSTEM" "MINGW64")
 
         (defun ad-exec-path-from-shell-setenv (orig-fun &rest args)
-          (when (string=  (car args) "PATH")
-            (setf (nth 1 args)
-                  (with-temp-buffer
-                    (call-process msys2-cygpath-path nil '(t nil) nil "-amp" (nth 1 args))
-                    (unless (bobp)
-                      (goto-char (point-min))
-                      (buffer-substring-no-properties (point) (line-end-position))))))
+          (when (string= (car args) "PATH")
+            (setf (nth 1 args) (msys2-cygpath-to-win-path (nth 1 args))))
           (apply orig-fun args))
         (advice-add 'exec-path-from-shell-setenv :around 'ad-exec-path-from-shell-setenv)))
     (setq shell-command-switch "-c"))
 
   (exec-path-from-shell-initialize)
+
+  (when (eq system-type 'windows-nt)
+    (after-load 'info
+      (setq Info-additional-directory-list (split-string (msys2-cygpath-to-win-path (exec-path-from-shell-getenv "INFOPATH")) "[;]"))))
+
   (defalias 'maybe-copy-env-from-shell 'exec-path-from-shell-getenvs))
 
 ;; If gpg cannot be found, signature checking will fail, so we
