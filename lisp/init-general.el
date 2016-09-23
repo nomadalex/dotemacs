@@ -1,6 +1,7 @@
-(use-package better-defaults :ensure t)
+(use-package better-defaults
+  :ensure t)
 
-; "y or n" instead of "yes or no".
+;; "y or n" instead of "yes or no".
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Enable disabled commands.
@@ -49,51 +50,75 @@
                  "%b"))
         " - " invocation-name))
 
+;; Show keystrokes in progress.
+(setq echo-keystrokes 0.1)
+
+;; Sentences do not need double spaces to end.
+(setq-default sentence-end-double-space nil)
+
+;; Do not break lines.
+(setq-default truncate-lines t)
+
+;; Move files to trash when deleting.
+(setq delete-by-moving-to-trash t)
 (when *is-a-mac*
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'none)
-  (setq default-input-method "MacOSX")
-  (define-key key-translation-map "\e[21~" [f10])
-  ;; http://stuff-things.net/2015/10/05/emacs-visible-bell-work-around-on-os-x-el-capitan/
-  (setq visible-bell nil)
-  (setq ring-bell-function (lambda ()
-                             (invert-face 'mode-line)
-                             (run-with-timer 0.1 nil 'invert-face 'mode-line)))
-  ;; Make mouse wheel / trackpad scrolling less jerky
-  (setq mouse-wheel-scroll-amount '(0.001)))
+  (setq trash-directory (expand-file-name "~/.Trash")))
 
 (column-number-mode 1)
 (delete-selection-mode 1)
 
-(recentf-mode 1)
-(setq-default recentf-max-saved-items 100
-              recentf-exclude '("/tmp/" "/ssh:"))
+;; Handle camelCase words properly everywhere.
+(global-subword-mode 1)
 
-(use-package hydra :ensure t :defer t)
-(use-package scratch :ensure t :defer t)
+;; Automatically open compressed files.
+(auto-compression-mode 1)
 
-(bind-key* "C-," 'set-mark-command)
-(bind-key* "C-x C-," 'pop-global-mark)
+;; http://endlessparentheses.com/faster-pop-to-mark-command.html
+;; When popping the mark, continue popping until the cursor actually moves.
+(defadvice pop-to-mark-command (around ensure-new-position activate)
+  (let ((p (point)))
+    (dotimes (i 10)
+      (when (= p (point))
+        ad-do-it))))
 
-;; 2011-05-06 20:17
-;; http://stackoverflow.com/questions/145291/smart-home-in-emacs
-(defun move-beginning-of-line-smart ()
-  "Move point to the first non-whitespace character on this line.
-If point was already at that position, move point to beginning of
-line."
-  (interactive)
-  (let ((oldpos (point)))
-    (back-to-indentation)
-    (and (= oldpos (point))
-	 (beginning-of-line))))
+(setq set-mark-command-repeat-pop t)
 
-(global-set-key [remap move-beginning-of-line] 'move-beginning-of-line-smart)
+(defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
+  "Cleanup white space after `kill-line' up to non white space character."
+  (unless (bolp)
+    (delete-region (point)
+                   (progn (skip-chars-forward " \t") (point)))))
 
-(global-set-key (kbd "C-c j") 'join-line)
+(use-package hydra
+  :ensure t
+  :defer t)
 
-;; Paragraph movement.
-(bind-key "M-n" #'forward-paragraph)
-(bind-key "M-p" #'backward-paragraph)
+(use-package scratch
+  :ensure t
+  :defer t)
+
+;;; desktop
+(use-package desktop
+  :config
+  ;; save a list of open files in ~/.emacs.d/.emacs.desktop
+  (setq desktop-path (list user-emacs-directory)
+        desktop-auto-save-timeout 600)
+  (desktop-save-mode 1))
+
+;;; uniquify
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'post-forward
+        uniquify-ignore-buffers-re "^\\*"))
+
+;; Visualize some kinds of blank.
+(use-package whitespace
+  :diminish whitespace-mode
+  :config
+  ;; Indicate empty lines after the buffer end.
+  (setq-default indicate-empty-lines t)
+  (setq whitespace-style '(face trailing))
+  (global-whitespace-mode 1))
 
 ;; Smart mode line.
 (use-package smart-mode-line
@@ -130,36 +155,6 @@ line."
   :config
   (setq comment-fill-column 70))
 
-;; Show keystrokes in progress.
-(setq echo-keystrokes 0.1)
-
-;; Sentences do not need double spaces to end.
-(setq-default sentence-end-double-space nil)
-
-;; Do not break lines.
-(setq-default truncate-lines t)
-
-;; Handle camelCase words properly everywhere.
-(global-subword-mode 1)
-
-;; Move files to trash when deleting.
-(setq delete-by-moving-to-trash t)
-(when *is-a-mac*
-  (setq trash-directory (expand-file-name "~/.Trash")))
-
-;; Automatically open compressed files.
-(auto-compression-mode 1)
-
-;; http://endlessparentheses.com/faster-pop-to-mark-command.html
-;; When popping the mark, continue popping until the cursor actually moves.
-(defadvice pop-to-mark-command (around ensure-new-position activate)
-  (let ((p (point)))
-    (dotimes (i 10)
-      (when (= p (point))
-        ad-do-it))))
-
-(setq set-mark-command-repeat-pop t)
-
 ;; Set default dictionary for flyspell-mode.
 (use-package ispell
   :defer t
@@ -191,6 +186,11 @@ line."
 (use-package hippie-exp
   :bind
   ("C-M-/" . hippie-expand-lines)
+  :init
+  ;; Enable dynamic expansion of words.
+  (setq global-abbrev-table (make-abbrev-table)) ; Fix wrong type argument.
+  (setq-default abbrev-mode t)
+  (setq save-abbrevs 'silently)
   :config
   ;; Custom hippie-expand expansion functions.
   (setq hippie-expand-try-functions-list '(try-expand-dabbrev
@@ -203,11 +203,6 @@ line."
                                            try-expand-line
                                            try-complete-lisp-symbol-partially
                                            try-complete-lisp-symbol)))
-
-;; Enable dynamic expansion of words.
-(setq global-abbrev-table (make-abbrev-table)) ; Fix wrong type argument.
-(setq-default abbrev-mode t)
-(setq save-abbrevs 'silently)
 
 (use-package calendar
   :defer t
@@ -242,12 +237,6 @@ line."
   :bind
   ("C-x o" . ace-window))
 
-(defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
-  "Cleanup white space after `kill-line' up to non white space character."
-  (unless (bolp)
-    (delete-region (point)
-                   (progn (skip-chars-forward " \t") (point)))))
-
 ;; http://endlessparentheses.com/exclude-directories-from-grep.html
 (use-package grep
   :defer t
@@ -273,16 +262,18 @@ line."
   :bind
   ("C-M-%" . vr/query-replace))
 
-;; Text mode
-(add-hook 'text-mode-hook #'auto-fill-mode)
-(add-hook 'text-mode-hook #'flyspell-mode)
-
 ;; Savehist keeps track of some history.
 (use-package savehist
   :config
   (setq savehist-additional-variables '(search ring regexp-search-ring)
         savehist-file (concat user-emacs-directory "savehist"))
   (savehist-mode 1))
+
+(use-package recentf
+  :config
+  (setq-default recentf-max-saved-items 100
+                recentf-exclude '("/tmp/" "/ssh:"))
+  (recentf-mode 1))
 
 ;; Bookmarks.
 (use-package bookmark
@@ -322,29 +313,6 @@ line."
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode))
 
-;; Visualize some kinds of blank.
-(use-package whitespace
-  :diminish whitespace-mode
-  :config
-  ;; Indicate empty lines after the buffer end.
-  (setq-default indicate-empty-lines t)
-  (setq whitespace-style '(face trailing))
-  (global-whitespace-mode 1))
-
-;;; uniquify
-(use-package uniquify
-  :config
-  (setq uniquify-buffer-name-style 'post-forward
-        uniquify-ignore-buffers-re "^\\*"))
-
-;;; desktop
-(use-package desktop
-  :config
-  ;; save a list of open files in ~/.emacs.d/.emacs.desktop
-  (setq desktop-path (list user-emacs-directory)
-        desktop-auto-save-timeout 600)
-  (desktop-save-mode 1))
-
 ;;; ibuffer
 (use-package ibuffer
   :defer t
@@ -364,6 +332,48 @@ line."
       (ibuffer-do-sort-by-filename/process)))
 
   (add-hook 'ibuffer-hook 'ibuffer-set-up-preferred-filters))
+
+;; key bindings
+
+(bind-key* "C-," 'set-mark-command)
+(bind-key* "C-x C-," 'pop-global-mark)
+
+;; 2011-05-06 20:17
+;; http://stackoverflow.com/questions/145291/smart-home-in-emacs
+(defun move-beginning-of-line-smart ()
+  "Move point to the first non-whitespace character on this line.
+If point was already at that position, move point to beginning of
+line."
+  (interactive)
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+	 (beginning-of-line))))
+
+(global-set-key [remap move-beginning-of-line] 'move-beginning-of-line-smart)
+
+(global-set-key (kbd "C-c j") 'join-line)
+
+;; Paragraph movement.
+(bind-key "M-n" #'forward-paragraph)
+(bind-key "M-p" #'backward-paragraph)
+
+;; Text mode
+(add-hook 'text-mode-hook #'auto-fill-mode)
+(add-hook 'text-mode-hook #'flyspell-mode)
+
+(when *is-a-mac*
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'none)
+  (setq default-input-method "MacOSX")
+  (define-key key-translation-map "\e[21~" [f10])
+  ;; http://stuff-things.net/2015/10/05/emacs-visible-bell-work-around-on-os-x-el-capitan/
+  (setq visible-bell nil)
+  (setq ring-bell-function (lambda ()
+                             (invert-face 'mode-line)
+                             (run-with-timer 0.1 nil 'invert-face 'mode-line)))
+  ;; Make mouse wheel / trackpad scrolling less jerky
+  (setq mouse-wheel-scroll-amount '(0.001)))
 
 (provide 'init-general)
 ;;; init-general ends here
