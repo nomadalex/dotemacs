@@ -113,8 +113,8 @@ line."
 (use-package whitespace
   :diminish whitespace-mode
   :config
-    ;; Indicate empty lines after the buffer end.
-  (setq-default qindicate-empty-lines t)
+  ;; Indicate empty lines after the buffer end.
+  (setq-default indicate-empty-lines t)
   (setq whitespace-style '(face trailing))
   (global-whitespace-mode 1))
 
