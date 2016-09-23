@@ -1,8 +1,4 @@
-(eval-when-compile (require 'cl))
-
-(use-package better-defaults
-  :ensure t)
-
+(use-package better-defaults :ensure t)
 
 ; "y or n" instead of "yes or no".
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -61,7 +57,6 @@
 (setq global-auto-revert-non-file-buffers t
       auto-revert-verbose nil)
 
-(use-package cl-lib :ensure t :defer t)
 (use-package hydra :ensure t :defer t)
 (use-package scratch :ensure t :defer t)
 (use-package wgrep :ensure t :defer t)
