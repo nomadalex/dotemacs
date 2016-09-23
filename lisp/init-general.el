@@ -123,8 +123,9 @@
 ;; Smart mode line.
 (use-package smart-mode-line
   :ensure t
-  :config
-  (sml/setup))
+  :defer t
+  :init
+  (add-hook 'after-init-hook 'sml/setup))
 
 ;; fill-column-indicator
 ;; Enable only in text- and prog-modes.
