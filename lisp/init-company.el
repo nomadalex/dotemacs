@@ -45,6 +45,23 @@
     :config
     (company-quickhelp-mode))
 
+  ;; https://github.com/company-mode/company-mode/issues/180
+  ;; https://github.com/alpaker/Fill-Column-Indicator/issues/54
+  (after-load 'fill-column-indicator
+    (defvar-local company-fci-mode-on-p nil)
+
+    (defun company-turn-off-fci (&rest ignore)
+      (when (boundp 'fci-mode)
+        (setq company-fci-mode-on-p fci-mode)
+        (when fci-mode (fci-mode -1))))
+
+    (defun company-maybe-turn-on-fci (&rest ignore)
+      (when company-fci-mode-on-p (fci-mode 1)))
+
+    (add-hook 'company-completion-started-hook 'company-turn-off-fci)
+    (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
+    (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci))
+
   (after-load 'page-break-lines-mode
     (defvar sanityinc/page-break-lines-on-p nil)
     (make-variable-buffer-local 'sanityinc/page-break-lines-on-p)
