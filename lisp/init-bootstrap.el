@@ -6,25 +6,6 @@
       initial-major-mode 'emacs-lisp-mode
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-;; site-lisp initialize
-
-(eval-when-compile (require 'cl))
-
-(add-to-list 'load-path (expand-file-name "site-lisp/downloads" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
-
-(defun ensure-download-package (name url)
-  (let* ((dir (expand-file-name "site-lisp/downloads" user-emacs-directory))
-         (path (expand-file-name (format "%s.el" name) dir)))
-    (unless (file-exists-p path)
-      (byte-compile-file
-       (progn
-         (message "Download %s from %s" name url)
-         (unless (file-directory-p dir)
-           (make-directory dir t))
-         (url-copy-file url path t nil)
-         path)))))
-
 (defalias 'after-load 'with-eval-after-load)
 
 ;; package initialize
