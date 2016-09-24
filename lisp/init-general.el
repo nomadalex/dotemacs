@@ -148,6 +148,11 @@
     (unless fci-mode
       (turn-on-fci-mode))))
 
+(use-package page-break-lines
+  :ensure t
+  :diminish page-break-lines-mode
+  :init
+  (global-page-break-lines-mode))
 
 ;; Set fill-column and comment-fill-column.
 (setq-default fill-column 79)
@@ -221,7 +226,9 @@
 (use-package browse-kill-ring
   :ensure t
   :bind
-  ("C-x C-y" . browse-kill-ring))
+  ("C-x C-y" . browse-kill-ring)
+  :config
+  (push 'browse-kill-ring-mode page-break-lines-modes))
 
 (use-package avy
   :ensure t
