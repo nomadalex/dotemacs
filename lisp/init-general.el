@@ -389,6 +389,33 @@ line."
 (bind-key "M-n" #'forward-paragraph)
 (bind-key "M-p" #'backward-paragraph)
 
+;; Launcher map.
+;; `C-x l' is `count-lines-page' by default.
+;; http://endlessparentheses.com/launcher-keymap-for-standalone-features.html
+(bind-keys :prefix-map launcher-map
+           :prefix "C-x l"
+           ("c" . whitespace-cleanup)
+           ("C" . calc)
+           ("h" . man)
+           ("f" . find-dired)
+           ("l" . lgrep)
+           ("r" . rgrep)
+           ("o" . occur)
+           ("m" . multi-occur)
+           ("p" . paradox-list-packages)
+           ("w" . webjump))
+
+;; Toggle map.
+;; http://endlessparentheses.com/the-toggle-map-and-wizardry.html
+(bind-keys :prefix-map toggle-map
+           :prefix "C-x t"
+           ("e" . toggle-debug-on-error)
+           ("r" . dired-toggle-read-only)
+           ("w" . whitespace-mode)
+           ("f" . auto-fill-mode)
+           ("t" . truncate-lines)
+           ("m" . menu-bar-mode))
+
 ;; Text mode
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'text-mode-hook #'flyspell-mode)
