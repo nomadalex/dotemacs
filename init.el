@@ -10,6 +10,7 @@
 
   (require 'init-ivy)
   (require 'init-dired)
+  (require 'init-smartparens)
   (require 'init-company)
 
   (require 'init-csharp)
