@@ -13,6 +13,7 @@
   (require 'init-smartparens)
   (require 'init-company)
 
+  (require 'init-emacs-lisp)
   (require 'init-csharp)
 
   (when (file-exists-p custom-file)
