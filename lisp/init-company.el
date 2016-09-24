@@ -31,6 +31,8 @@
     (let ((completion-at-point-functions completion-at-point-functions-saved))
       (company-complete-common)))
 
+  (add-hook 'after-init-hook #'global-company-mode)
+
   :config
   (setq-default company-backends '((company-capf company-dabbrev-code) company-dabbrev)
                 company-dabbrev-other-buffers 'all)
@@ -77,8 +79,6 @@
     (add-hook 'company-completion-started-hook 'sanityinc/page-break-lines-disable)
     (add-hook 'company-completion-finished-hook 'sanityinc/page-break-lines-maybe-reenable)
     (add-hook 'company-completion-cancelled-hook 'sanityinc/page-break-lines-maybe-reenable)))
-
-(global-company-mode)
 
 (provide 'init-company)
 ;;; init-company ends here
