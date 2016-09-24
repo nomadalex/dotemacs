@@ -89,6 +89,13 @@
     (delete-region (point)
                    (progn (skip-chars-forward " \t") (point)))))
 
+;; Package.el on steroids.
+(use-package paradox
+  :ensure t
+  :defer t
+  :config
+  (setq paradox-execute-asynchronously nil))
+
 (use-package hydra
   :ensure t
   :defer t)
