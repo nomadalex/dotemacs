@@ -1,4 +1,5 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
+(defconst *is-a-win* (eq system-type 'windows-nt))
 
 (setq inhibit-default-init t
       inhibit-splash-screen t
@@ -27,14 +28,12 @@
 
 ;; exec-path-from-shell initialize
 
-(defun maybe-copy-env-from-shell (vars) t)
-
 (use-package exec-path-from-shell
-  :if (or (eq system-type 'windows-nt) (memq window-system '(ns x)))
+  :if (or *is-a-win* (memq window-system '(ns x)))
   :ensure t
   :config
   ;; http://qiita.com/KazuSoap/items/ee7a4dec80308dbd1d41
-  (when (eq system-type 'windows-nt)
+  (when *is-a-win*
     (let ((shell-level (getenv "SHLVL")))
       (when (or (not shell-level) (string= "0" shell-level))
         (defvar msys2-root-directory "c:/msys64"
@@ -65,11 +64,14 @@
 
   (exec-path-from-shell-initialize)
 
-  (when (eq system-type 'windows-nt)
+  (when *is-a-win*
     (with-eval-after-load 'info
       (setq Info-additional-directory-list (split-string (msys2-cygpath-to-win-path (exec-path-from-shell-getenv "INFOPATH")) "[;]"))))
 
   (defalias 'maybe-copy-env-from-shell 'exec-path-from-shell-getenvs))
+
+(unless (fboundp 'maybe-copy-env-from-shell)
+  (defun maybe-copy-env-from-shell (names) t))
 
 ;; If gpg cannot be found, signature checking will fail, so we
 ;; conditionally enable it according to whether gpg is available.
