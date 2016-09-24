@@ -27,15 +27,14 @@
 
   (define-key emacs-lisp-mode-map (kbd "C-x C-a") 'pp-macroexpand-last-sexp)
 
-  (defun maybe-set-bundled-and-elpa-elisp-readonly ()
+  (defun maybe-set-elisp-readonly ()
     "If this elisp appears to be part of Emacs or installed from elpa, then disallow editing."
     (when (and (buffer-file-name)
-               (or (string-match-p "\\.el\\.gz\\'" (buffer-file-name))
-                   (string-prefix-p (expand-file-name "elpa" user-emacs-directory) (buffer-file-name))))
+               (string-match-p "\\.el\\.gz\\'" (buffer-file-name)))
       (setq buffer-read-only t)
       (view-mode 1)))
 
-  (add-hook 'emacs-lisp-mode-hook 'maybe-set-bundled-and-elpa-elisp-readonly)
+  (add-hook 'emacs-lisp-mode-hook 'maybe-set-elisp-readonly)
 
   ;; paredit's wrap-round.
   ;; https://github.com/Fuco1/smartparens/wiki/Permissions#pre-and-post-action-hooks
