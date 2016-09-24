@@ -8,7 +8,10 @@
   (require 'init-general)
   (require 'init-themes)
 
+  (require 'init-ivy)
+  (require 'init-dired)
   (require 'init-company)
+
   (require 'init-csharp)
 
   (when (file-exists-p custom-file)
