@@ -70,7 +70,7 @@ Do not ask for permission."
       (and buf (kill-buffer buf))
       (mapc 'kill-buffer buf-list)))
 
-  (after-load 'wdired
+  (with-eval-after-load 'wdired
     (bind-key [remap beginning-of-buffer] #'dired-goto-top wdired-mode-map)
     (bind-key [remap end-of-buffer] #'dired-goto-bottom) wdired-mode-map))
 

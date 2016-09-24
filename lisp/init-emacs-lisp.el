@@ -38,7 +38,7 @@
 
   ;; paredit's wrap-round.
   ;; https://github.com/Fuco1/smartparens/wiki/Permissions#pre-and-post-action-hooks
-  (after-load 'smartparens
+  (with-eval-after-load 'smartparens
     (sp-local-pair 'emacs-lisp-mode "(" nil :wrap "M-("
                    :post-handlers '(:add restore-paren-location))
 

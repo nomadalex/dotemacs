@@ -49,7 +49,7 @@
 
   ;; https://github.com/company-mode/company-mode/issues/180
   ;; https://github.com/alpaker/Fill-Column-Indicator/issues/54
-  (after-load 'fill-column-indicator
+  (with-eval-after-load 'fill-column-indicator
     (defvar-local company-fci-mode-on-p nil)
 
     (defun company-turn-off-fci (&rest ignore)
@@ -64,7 +64,7 @@
     (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
     (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci))
 
-  (after-load 'page-break-lines-mode
+  (with-eval-after-load 'page-break-lines-mode
     (defvar sanityinc/page-break-lines-on-p nil)
     (make-variable-buffer-local 'sanityinc/page-break-lines-on-p)
 

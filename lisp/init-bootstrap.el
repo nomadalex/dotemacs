@@ -6,8 +6,6 @@
       initial-major-mode 'emacs-lisp-mode
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(defalias 'after-load 'with-eval-after-load)
-
 ;; package initialize
 
 (require 'package)
@@ -68,7 +66,7 @@
   (exec-path-from-shell-initialize)
 
   (when (eq system-type 'windows-nt)
-    (after-load 'info
+    (with-eval-after-load 'info
       (setq Info-additional-directory-list (split-string (msys2-cygpath-to-win-path (exec-path-from-shell-getenv "INFOPATH")) "[;]"))))
 
   (defalias 'maybe-copy-env-from-shell 'exec-path-from-shell-getenvs))
