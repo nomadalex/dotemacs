@@ -1,6 +1,7 @@
 (use-package ivy
   :ensure t
   :defer t
+  :diminish ivy-mode
   :bind
   (("C-c C-r" . ivy-resume)
    ("C-x f" . ivy-recentf)
