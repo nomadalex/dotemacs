@@ -11,6 +11,7 @@
   (require 'init-ivy)
   (require 'init-dired)
   (require 'init-smartparens)
+  (require 'init-yasnippet)
   (require 'init-company)
 
   (require 'init-emacs-lisp)
