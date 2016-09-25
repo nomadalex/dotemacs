@@ -409,7 +409,7 @@ line."
            ("r" . dired-toggle-read-only)
            ("w" . whitespace-mode)
            ("f" . auto-fill-mode)
-           ("t" . truncate-lines)
+           ("t" . toggle-truncate-lines)
            ("m" . menu-bar-mode))
 
 ;; Text mode
