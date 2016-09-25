@@ -14,6 +14,7 @@
   (require 'init-yasnippet)
   (require 'init-company)
 
+  (require 'init-major-modes)
   (require 'init-emacs-lisp)
   (require 'init-csharp)
 
