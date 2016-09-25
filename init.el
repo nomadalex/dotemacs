@@ -17,6 +17,7 @@
   (require 'init-major-modes)
   (require 'init-emacs-lisp)
   (require 'init-csharp)
+  (require 'init-ruby)
 
   (when (file-exists-p custom-file)
     (load custom-file))
