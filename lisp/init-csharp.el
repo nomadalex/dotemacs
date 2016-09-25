@@ -11,6 +11,7 @@
   (use-package omnisharp
     :ensure t
     :defer t
+    :diminish omnisharp-mode
     :config
     (when *is-a-mac*
       (setq omnisharp-server-executable-path (executable-find "omnisharp")))
