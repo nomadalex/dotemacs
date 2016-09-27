@@ -19,6 +19,9 @@
   (require 'init-csharp)
   (require 'init-ruby)
 
+  (enable-log-desktop-restored-time)
+  (enable-log-init-time)
+
   (when (file-exists-p custom-file)
     (load custom-file))
 
