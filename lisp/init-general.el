@@ -1,6 +1,11 @@
 (use-package better-defaults
   :ensure t)
 
+(use-package chinese-fonts-setup
+  :ensure t
+  :config
+  (chinese-fonts-setup-enable))
+
 ;; "y or n" instead of "yes or no".
 (fset 'yes-or-no-p 'y-or-n-p)
 
