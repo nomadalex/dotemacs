@@ -15,11 +15,11 @@
     :config
     (when *is-a-mac*
       (setq omnisharp-server-executable-path (executable-find "omnisharp")))
-    (setq omnisharp-company-template-use-yasnippet nil)
-    (add-to-list 'company-backends 'company-omnisharp))
+    (setq omnisharp-company-template-use-yasnippet nil))
 
   :config
   (define-key csharp-mode-map [remap c-indent-line-or-region] 'company-indent-for-tab-command)
+  (add-to-list 'company-backends '(company-omnisharp company-dabbrev-code))
 
   (defun setup-csharp-mode ()
     (omnisharp-mode)
