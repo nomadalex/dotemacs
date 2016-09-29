@@ -22,4 +22,8 @@
   :ensure t
   :defer t)
 
+(use-package mmm-mode
+  :ensure t
+  :defer t)
+
 (provide 'init-major-modes)
