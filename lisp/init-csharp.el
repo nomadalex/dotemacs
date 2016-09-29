@@ -15,6 +15,7 @@
     :config
     (when *is-a-mac*
       (setq omnisharp-server-executable-path (executable-find "omnisharp")))
+    (setq omnisharp-company-template-use-yasnippet nil)
     (add-to-list 'company-backends 'company-omnisharp))
 
   :config
