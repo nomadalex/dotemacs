@@ -434,5 +434,5 @@ line."
   ;; Make mouse wheel / trackpad scrolling less jerky
   (setq mouse-wheel-scroll-amount '(0.001)))
 
-(provide 'init-general)
+(provide 'init-general-settings)
 ;;; init-general ends here

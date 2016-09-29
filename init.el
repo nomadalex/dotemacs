@@ -5,7 +5,7 @@
 
   (require 'init-benchmarking)
   (require 'init-bootstrap)
-  (require 'init-general)
+  (require 'init-general-settings)
   (require 'init-themes)
 
   (require 'init-ivy)
@@ -14,7 +14,7 @@
   (require 'init-yasnippet)
   (require 'init-company)
 
-  (require 'init-major-modes)
+  (require 'init-general-modes)
   (require 'init-emacs-lisp)
   (require 'init-csharp)
   (require 'init-ruby)

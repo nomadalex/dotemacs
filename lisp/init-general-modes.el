@@ -26,4 +26,4 @@
   :ensure t
   :defer t)
 
-(provide 'init-major-modes)
+(provide 'init-general-modes)
