@@ -26,4 +26,8 @@
   :ensure t
   :defer t)
 
+(use-package shader-mode
+  :ensure t
+  :defer t)
+
 (provide 'init-general-modes)
