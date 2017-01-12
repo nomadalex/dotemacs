@@ -18,6 +18,7 @@
   (require 'init-emacs-lisp)
   (require 'init-csharp)
   (require 'init-ruby)
+  (require 'init-swift)
 
   (enable-log-desktop-restored-time)
   (enable-log-init-time)
