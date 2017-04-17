@@ -11,6 +11,8 @@
 /server
 /url
 /chinese-fonts-setup
+/tramp
+/image-dired/
 
 /custom.el
 /elpa
