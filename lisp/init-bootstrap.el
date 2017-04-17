@@ -63,6 +63,9 @@
         (advice-add 'exec-path-from-shell-setenv :around 'ad-exec-path-from-shell-setenv)))
     (setq shell-command-switch "-c"))
 
+  (when (and *is-a-mac* *is-fish*)
+    (setq exec-path-from-shell-arguments (remove "-i" exec-path-from-shell-arguments)))
+
   (exec-path-from-shell-initialize)
 
   (when *is-a-win*
