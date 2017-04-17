@@ -59,10 +59,8 @@
 (setq echo-keystrokes 0.1)
 
 ;; Sentences do not need double spaces to end.
-(setq-default sentence-end-double-space nil)
-
-;; Do not break lines.
-(setq-default truncate-lines t)
+(setq-default sentence-end-double-space nil
+              case-fold-search t)
 
 ;; Move files to trash when deleting.
 (setq delete-by-moving-to-trash t)
