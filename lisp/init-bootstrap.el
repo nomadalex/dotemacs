@@ -1,5 +1,6 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
 (defconst *is-a-win* (eq system-type 'windows-nt))
+(defconst *is-fish* (string-match-p (regexp-quote "fish") (getenv "SHELL")))
 
 (setq inhibit-default-init t
       inhibit-splash-screen t
