@@ -437,7 +437,11 @@ line."
                              (invert-face 'mode-line)
                              (run-with-timer 0.1 nil 'invert-face 'mode-line)))
   ;; Make mouse wheel / trackpad scrolling less jerky
-  (setq mouse-wheel-scroll-amount '(0.001)))
+  (setq mouse-wheel-scroll-amount '(0.001))
+
+  (when *is-fish*
+    ;(setq grep-find-template "find <D> <X> -type f <F> -exec grep <C> -nH -e <R> \\{\\} +")
+    (setq shell-file-name "/bin/bash")))
 
 (provide 'init-general-settings)
 ;;; init-general ends here
