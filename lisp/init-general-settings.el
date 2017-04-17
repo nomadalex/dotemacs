@@ -363,6 +363,10 @@
 
   (add-hook 'ibuffer-hook 'ibuffer-set-up-preferred-filters))
 
+;; gtags support
+(use-package ggtags
+  :defer t)
+
 ;;; big file support
 (use-package vlf
   :ensure t
