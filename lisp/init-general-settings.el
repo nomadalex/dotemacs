@@ -363,6 +363,13 @@
 
   (add-hook 'ibuffer-hook 'ibuffer-set-up-preferred-filters))
 
+;;; big file support
+(use-package vlf
+  :ensure t
+  :defer t
+  :init
+  (require 'vlf-setup))
+
 ;; key bindings
 
 (bind-key* "C-," 'set-mark-command)
