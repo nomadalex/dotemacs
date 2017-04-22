@@ -16,7 +16,7 @@
              '("melpa" . "https://melpa.org/packages/") t)
 
 (setq package-enable-at-startup nil)
-(package-initialize)
+(setup-package)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)

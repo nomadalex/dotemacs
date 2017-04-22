@@ -1,3 +1,7 @@
+;; fix annoying modification by package.el
+(defun setup-package()
+  (package-initialize))
+
 (let ((gc-cons-threshold (* 256 1024 1024))
       (file-name-handler-alist nil))
 
