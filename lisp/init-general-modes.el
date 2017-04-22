@@ -30,4 +30,8 @@
   :ensure t
   :defer t)
 
+(use-package protobuf-mode
+  :ensure t
+  :defer t)
+
 (provide 'init-general-modes)
