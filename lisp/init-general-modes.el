@@ -34,4 +34,8 @@
   :ensure t
   :defer t)
 
+(use-package fish-mode
+  :ensure t
+  :defer t)
+
 (provide 'init-general-modes)
