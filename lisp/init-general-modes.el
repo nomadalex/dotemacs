@@ -36,6 +36,10 @@
 
 (use-package fish-mode
   :ensure t
-  :defer t)
+  :defer t
+  :config
+  (defun setup-fish-mode ()
+    (setq tab-width 4))
+  (add-hook 'fish-mode-hook 'setup-fish-mode))
 
 (provide 'init-general-modes)
