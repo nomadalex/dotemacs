@@ -20,6 +20,7 @@
 
   (require 'init-general-modes)
   (require 'init-emacs-lisp)
+  (require 'init-cpp)
   (require 'init-csharp)
   (require 'init-ruby)
   (require 'init-swift)
