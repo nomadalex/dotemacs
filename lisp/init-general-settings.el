@@ -264,10 +264,10 @@
   :config
   (winner-mode 1))
 
-(use-package ace-window
+(use-package switch-window
   :ensure t
   :bind
-  ("C-x o" . ace-window))
+  ("C-x o" . switch-window))
 
 ;; http://endlessparentheses.com/exclude-directories-from-grep.html
 (use-package grep
