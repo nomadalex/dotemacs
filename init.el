@@ -24,6 +24,7 @@
   (require 'init-csharp)
   (require 'init-ruby)
   (require 'init-swift)
+  (require 'init-docker)
 
   (enable-log-desktop-restored-time)
   (enable-log-init-time)
