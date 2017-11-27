@@ -92,6 +92,9 @@
     (delete-region (point)
                    (progn (skip-chars-forward " \t") (point)))))
 
+(use-package fullframe
+  :ensure t)
+
 ;; Package.el on steroids.
 (use-package paradox
   :ensure t
@@ -373,6 +376,13 @@
   :defer t
   :init
   (require 'vlf-setup))
+
+;; beacon
+(use-package beacon
+  :ensure t
+  :init
+  (setq-default beacon-lighter "")
+  (beacon-mode))
 
 ;; key bindings
 
