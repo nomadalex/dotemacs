@@ -12,9 +12,10 @@
 
 (require 'package)
 
-; (add-to-list 'package-archives
-;             '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;;             '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
+             ;; use http instead of https, because https://lists.gnu.org/archive/html/help-gnu-emacs/2016-11/msg00043.html
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 
 (setq package-enable-at-startup nil)
