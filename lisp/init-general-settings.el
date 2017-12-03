@@ -384,6 +384,12 @@
   (setq-default beacon-lighter "")
   (beacon-mode))
 
+(use-package projectile
+  :ensure t
+  :defer t
+  :init
+  (projectile-global-mode))
+
 ;; key bindings
 
 (bind-key* "C-," 'set-mark-command)
