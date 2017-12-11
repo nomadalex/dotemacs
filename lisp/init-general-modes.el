@@ -28,7 +28,9 @@
 
 (use-package shader-mode
   :ensure t
-  :defer t)
+  :defer t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.shader$" . shader-mode)))
 
 (use-package protobuf-mode
   :ensure t
