@@ -53,4 +53,8 @@
   (add-hook 'go-mode-hook 'setup-go-mode)
   (add-hook 'before-save-hook 'gofmt-before-save))
 
+(use-package nginx-mode
+  :ensure t
+  :defer t)
+
 (provide 'init-general-modes)
