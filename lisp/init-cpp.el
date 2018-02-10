@@ -1,6 +1,9 @@
 (use-package modern-cpp-font-lock
   :ensure t
   :defer t)
+(use-package google-c-style
+  :ensure t
+  :defer t)
 
 ;; This hack fixes indentation for C++11's "enum class" in Emacs.
 ;; http://stackoverflow.com/questions/6497374/emacs-cc-mode-indentation-problem-with-c0x-enum-class/6550361#6550361
